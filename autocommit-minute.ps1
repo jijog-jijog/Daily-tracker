@@ -1,10 +1,21 @@
-# Minute-by-minute autocommit PowerShell script
-# Updates log.txt with current timestamp and commits changes every minute
+# Minute-by-minute autocommit PowerShell script with sync
+# Updates log.txt with current timestamp, commits changes, and syncs with remote every minute
 
 while ($true) {
     try {
         # Get current date and time
         $currentDate = Get-Date -Format "dd/MM/yyyy HH:mm:ss"
+        
+        Write-Host "[$currentDate] Starting sync cycle..." -ForegroundColor Cyan
+        
+        # First, try to pull any remote changes
+        Write-Host "[$currentDate] Pulling remote changes..." -ForegroundColor Blue
+        $pullResult = git pull origin main 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "[$currentDate] Pull successful" -ForegroundColor Green
+        } else {
+            Write-Host "[$currentDate] Pull warning/info: $pullResult" -ForegroundColor Yellow
+        }
         
         # Update log.txt with current timestamp
         "Updated on $currentDate" | Out-File -FilePath "log.txt" -Encoding utf8
@@ -16,16 +27,25 @@ while ($true) {
         $status = git status --porcelain 2>$null
         if ($status) {
             # Commit with timestamp message
-            git commit -m "Minute update: $currentDate" 2>$null
+            git commit -m "Auto sync: $currentDate" 2>$null
             Write-Host "[$currentDate] Changes committed successfully" -ForegroundColor Green
+            
+            # Push changes to remote
+            Write-Host "[$currentDate] Pushing to remote..." -ForegroundColor Blue
+            $pushResult = git push origin main 2>&1
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "[$currentDate] Push successful - Sync complete!" -ForegroundColor Green
+            } else {
+                Write-Host "[$currentDate] Push failed: $pushResult" -ForegroundColor Red
+            }
         } else {
-            Write-Host "[$currentDate] No changes to commit" -ForegroundColor Yellow
+            Write-Host "[$currentDate] No local changes to commit" -ForegroundColor Yellow
         }
     }
     catch {
         Write-Host "[$currentDate] Error: $_" -ForegroundColor Red
     }
     
-    # Wait 60 seconds (1 minute) before next commit
+    # Wait 60 seconds (1 minute) before next sync cycle
     Start-Sleep -Seconds 60
 }
