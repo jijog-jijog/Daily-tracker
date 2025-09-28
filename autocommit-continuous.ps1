@@ -7,8 +7,6 @@ while ($true) {
     try {
 
     
-
-    
         # Get current date and time with seconds
         $currentDate = Get-Date -Format "dd/MM/yyyy HH:mm:ss"
         
