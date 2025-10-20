@@ -1,8 +1,7 @@
 
 
 # Continuous autocommit PowerShell script - RUNS EVERY SECOND
-# WARNING: This will create thousands of commits per day!
-
+# WARNING: This will create thousands of commits per day
 while ($true) {
     try {    
         # Get current date and time with seconds
