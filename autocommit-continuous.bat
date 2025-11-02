@@ -5,5 +5,3 @@ powershell.exe -ExecutionPolicy Bypass -File "autocommit-continuous.p
 
 
 
-
-
