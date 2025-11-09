@@ -4,16 +4,7 @@
 # WARNING: This will create thousands of commits per day
 while ($true) {
     try {    
-        # Get current date and time with seconds
-        $currentDate = Get-Date -Format "dd/MM/yyyy HH:mm:ss"
-        
-        # Update log.txt with current timestamp
-        "Updated on $currentDate" | Out-File -FilePath "log.txt" -Encoding utf8
-        
-        # Add all changes to git
-        git add . 2>$null
-        
-        # Commit with timestamp message
+   
         git commit -m "Auto update: $currentDate" 2>$null
         
         Write-Host "[$currentDate] Committed successfully" -ForegroundColor Green
