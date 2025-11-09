@@ -1,7 +1,4 @@
 
-
-# Continuous autocommit PowerShell script - RUNS EVERY SECOND
-# WARNING: This will create thousands of commits per day
 while ($true) {
     try {    
    
