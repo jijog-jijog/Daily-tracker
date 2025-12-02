@@ -11,5 +11,5 @@ while ($true) {
     }
     
     # Wait 1 second before next commit
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds 
 }
