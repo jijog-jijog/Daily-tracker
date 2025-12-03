@@ -2,8 +2,7 @@
 while ($true) {
     try {    
    
-        git commit -m "Auto update: $currentDate" 2>$null
-        
+        git commit -m "Auto update: $currentDate" 2>$nul    
         Write-Host "[$currentDate] Committed successfully" -ForegroundColor Green
     }
     catch {
